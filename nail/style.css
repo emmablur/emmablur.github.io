@@ -121,11 +121,7 @@ div {
   top: 25px;
   right: 0;
 }
-@media(min-width:992px){
-  .nav-function-list {
-    top:0; 
-  }
-}
+
 
 .nav-function-list > * + * {
   margin: 0 0 0 15px;
