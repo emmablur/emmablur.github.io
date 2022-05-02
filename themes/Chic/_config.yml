@@ -6,7 +6,6 @@ nav:
   Posts: /archives
   Categories: /category
   Tags: /tag
-  About: /about
 
 # favicon
 favicon: /favicon.ico
@@ -15,7 +14,7 @@ favicon: /favicon.ico
 nickname: Emma Lan
 
 ### this variable is MarkDown form.
-description: 有時會在鬆餅店打毛線的前端工程師。Angular。
+description: 前端工程師。Angular。
 avatar: /image/me1.jpg
 
 # main menu navigation
@@ -49,7 +48,7 @@ links:
   # QQ:
   # Weibo:
   # WeChat:
-  Github: https://github.com/Siricee
+  Github: https://github.com/emmablur
 
 # how links show: you have 2 choice--text or icon.
 links_text_enable: false
