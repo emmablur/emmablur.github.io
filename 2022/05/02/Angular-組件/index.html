@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Emma Lan">
+
+
+    <meta name="subtitle" content="前端學習日誌">
+
+
+
+    <meta name="keywords" content="frontend">
+
+
+<title>Angular 組件 | log of night</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ㄟ</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ㄟ</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Angular 組件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Emma Lan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 2, 2022&nbsp;&nbsp;16:53:33</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><a href="/_IO0ztO2Qsafvg_IEgihxg">動態組件 - ComponentFactory</a></p>
+<h2 id="使用-CLI-創建"><a href="#使用-CLI-創建" class="headerlink" title="使用 CLI 創建"></a>使用 CLI 創建</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng generate component &lt;component-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>創建<code>&lt;component-name&gt;</code>資料夾，包含以下檔案: (建立的方式可更動)</p>
+<ul>
+<li>類別檔案:<code>&lt;component-name&gt;.component.ts</code></li>
+<li>css 樣式檔案:<code>&lt;component-name&gt;.component.css</code></li>
+<li>html 模板檔案(範本):<code>&lt;component-name&gt;.component.html</code></li>
+<li>測試檔案:<code>&lt;component-name&gt;.component.spec.ts</code></li>
+</ul>
+<blockquote>
+<p>創建的這些檔案，共同定義了這元件，在 Angular 中稱為「view」</p>
+</blockquote>
+<p>並更改<code>app.module.ts</code>, 在<code>@NgModule</code>中<code>declarations</code>中宣告它。</p>
+<h2 id="Component裝飾器"><a href="#Component裝飾器" class="headerlink" title="@Component裝飾器"></a><code>@Component</code>裝飾器</h2><p><a target="_blank" rel="noopener" href="https://angular.tw/api/core/Component">@Component 官方文件</a></p>
+<ul>
+<li>普通的類別，加上<code>@Component</code>裝飾器才是 Angular 元件</li>
+<li>在裝飾器裡面定義 metadata，它告訴 Angular 組件主要構成要素</li>
+</ul>
+<h3 id="metadata"><a href="#metadata" class="headerlink" title="metadata"></a>metadata</h3><p>以下為常見的 metadata 配置選項:</p>
+<ul>
+<li><strong>changeDetection</strong>: 變更檢測策略<ul>
+<li>Default:<br>假設<code>@Input()</code>項是物件，裡面的屬性有改動，就會觸發變更檢測，極盡可能只要有變更就觸發</li>
+<li>onPush:<br>假設<code>@Input()</code>項是物件，必須要參考也變動，才會觸發</li>
+</ul>
+</li>
+<li><strong>selector</strong> : css 選擇器，告知在哪個 html 元素實例該組件</li>
+<li><strong>templateUrl | template</strong> : 指定 html 文件或直接鍵入 html，tells Angular how to render the component</li>
+<li><strong>providers</strong> : 用陣列形式表示該組件所需服務</li>
+</ul>
+<h2 id="資料繫結"><a href="#資料繫結" class="headerlink" title="資料繫結"></a>資料繫結</h2><p><a target="_blank" rel="noopener" href="https://angular.tw/guide/architecture-components#data-binding">官方文件</a></p>
+<h2 id="屬性繫結-Attribute"><a href="#屬性繫結-Attribute" class="headerlink" title="屬性繫結 Attribute"></a>屬性繫結 Attribute</h2><p>可以繫結 Property，就不要選擇 Attribute。但有時我們還是需要 Attribute ～沒錯。<br>ex. (官方特別指出，真的別無他法的那些時刻，他們根本沒有 Property！)</p>
+<ul>
+<li>ARIA</li>
+<li>SVG</li>
+</ul>
+<h3 id="基本的語法"><a href="#基本的語法" class="headerlink" title="基本的語法"></a>基本的語法</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> [<span class="attr">attr.aria-label</span>]=<span class="string">&quot;name&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>屬性名稱前面加上 <code>attr.</code></p>
+<h3 id="常見用例"><a href="#常見用例" class="headerlink" title="常見用例"></a>常見用例</h3><ul>
+<li>class</li>
+</ul>
+<p><img src="/../img/class.png" alt="Untitled"></p>
+<ul>
+<li>style</li>
+</ul>
+<p><img src="/../img/style.png" alt="Untitled"></p>
+<h2 id="屬性繫結-property-binding"><a href="#屬性繫結-property-binding" class="headerlink" title="屬性繫結 property binding"></a>屬性繫結 property binding</h2><p><img src="https://angular.tw/generated/images/guide/architecture/databinding.png" alt="https://angular.tw/generated/images/guide/architecture/databinding.png"></p>
+<h3 id="父給子"><a href="#父給子" class="headerlink" title="父給子"></a>父給子</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!----父組件template中----&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">app-hero-detail</span> [<span class="attr">hero</span>]=<span class="string">&quot;selectedHero&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-hero-detail</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//in 子組件設定檔</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//(1) 直接使用父組件傳來的值</span></span><br><span class="line">@<span class="title class_">Input</span>() <span class="attr">hero</span>:string|<span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//(2) 攔截傳來的值，使用前先做別的處理 ex.trim()</span></span><br><span class="line">@<span class="title class_">Input</span>()</span><br><span class="line">    <span class="keyword">get</span> <span class="title function_">hero</span>():string &#123;<span class="keyword">return</span> _hero&#125;;</span><br><span class="line">    <span class="keyword">set</span> <span class="title function_">hero</span>(<span class="params">hero:string</span>)&#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_hero</span> = (hero &amp;&amp; hero.<span class="title function_">trim</span>()) || <span class="string">&#x27;&lt;no name set&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    private _hero = <span class="string">&#x27;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>把父組件的<code>selectedHero</code>傳到子組件的<code>hero</code> (在[]中的 hero 為目標屬性 target property，要對其賦值) (使用[]時，<strong>Angular 將 等號右側視作動態表示式進行求值</strong> 。不使用時，則視作字面值，直接賦字串)</p>
+<h3 id="子給父"><a href="#子給父" class="headerlink" title="子給父"></a>子給父</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//in 子組件設定檔</span></span><br><span class="line">@<span class="title class_">Output</span>() count = <span class="keyword">new</span> <span class="title class_">EventEmitter</span>&lt;boolean&gt;();</span><br><span class="line"></span><br><span class="line"><span class="comment">// emit 父組件</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">count</span>.<span class="title function_">emit</span>([傳參數]);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>@Output</code>屬性必須是<code>EventEmitter</code>型別，<del>為 Angular 中用來 emit 自定義事件的型別 (可以想作<code>new EventEmitter</code>之後，就創建了一個可 emit 父組件該自定義事件的方法)</del> <code>EventEmitter</code>繼承了<code>Subject</code>介面，於是一個<code>@Output</code>屬性代表一個新的資料流</li>
+<li><code>emit()</code>方法代表<code>Subject</code>發送通知，呼叫各<code>Observer</code>的<code>next()</code>方法<br>(而這個方法是 Angular 擴充的，用來讓子元件傳送任意參數)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--in 父組件模板--&gt;</span><br><span class="line">&lt;!--設定要接收的屬性--&gt;</span><br><span class="line">&lt;app-son (count)=&quot;onCount($event)&quot;&gt;&lt;/app-son&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 Angular 中有兩種<code>$event</code>，一種是普通的 DOM 事件的 event，比如 click, keyup 等。另一種是自定義的 event，當觸發子組件傳值給父組件的<code>EventEmitter</code>，父組件就是用<code>$event</code>來接收這個值（於是自定義 event 的<code>$event</code>內容很單純，就是傳值）</li>
+</ul>
+<h3 id="使父組件模板中可以取用子組件的方法和屬性-本地變數-local-variable-樣本參考變數"><a href="#使父組件模板中可以取用子組件的方法和屬性-本地變數-local-variable-樣本參考變數" class="headerlink" title="使父組件模板中可以取用子組件的方法和屬性(本地變數 local variable, 樣本參考變數)"></a>使父組件模板中可以取用子組件的方法和屬性(本地變數 local variable, 樣本參考變數)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--in 父組件模板--&gt;</span><br><span class="line">&lt;!--設定local variable #son，則可在父組件模板取用該子組件的屬性方法--&gt;</span><br><span class="line">&lt;app-son #son&gt;&lt;/app-son&gt;</span><br></pre></td></tr></table></figure>
+
+<p>則父組件可以在<strong>模板</strong>取用子組件屬性方法，侷限性在於: <strong>父組件的類別檔中，依然無法取用子組件屬性方法</strong></p>
+<h3 id="使父組件類別檔中可以取用子組件的方法和屬性-ViewChild"><a href="#使父組件類別檔中可以取用子組件的方法和屬性-ViewChild" class="headerlink" title="使父組件類別檔中可以取用子組件的方法和屬性(ViewChild)"></a>使父組件類別檔中可以取用子組件的方法和屬性(ViewChild)</h3><h3 id="子和父使用-serve-來通訊"><a href="#子和父使用-serve-來通訊" class="headerlink" title="子和父使用 serve 來通訊"></a>子和父使用 serve 來通訊</h3><p>該服務實例的作用域被限制在父元件和其子元件內。這個元件子樹之外的元件將無法訪問該服務或者與它們通訊。</p>
+<h3 id="雙向資料繫結-Two-way-data-binding"><a href="#雙向資料繫結-Two-way-data-binding" class="headerlink" title="雙向資料繫結 Two-way data binding"></a>雙向資料繫結 Two-way data binding</h3><h3 id="使用ngModel-語法糖"><a href="#使用ngModel-語法糖" class="headerlink" title="使用ngModel(語法糖)"></a>使用<code>ngModel</code>(語法糖)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; id=&quot;hero-name&quot; [(ngModel)]=&quot;hero.name&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>讓模板中 input field 和組件中<code>hero.name</code>雙向繫結 &gt; 雙向繫結需引入<code>import &#123; FormsModule &#125; from &#39;@angular/forms&#39;;</code>才可使用</p>
+<h3 id="不使用ngModel"><a href="#不使用ngModel" class="headerlink" title="不使用ngModel"></a>不使用<code>ngModel</code></h3><p><code>@Output()</code>的屬性名稱要和<code>@Input()</code>的相呼應。 比如若<code>@Input()</code>屬性名<code>size</code>，則<code>@Output()</code>必須是<code>sizeChange</code>。</p>
+<h2 id="生命週期鉤子"><a href="#生命週期鉤子" class="headerlink" title="生命週期鉤子"></a>生命週期鉤子</h2><p>參考資料:<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10203203">angular 大師之路</a></p>
+<p>&#x3D;&#x3D;創建元件(呼叫建構子)後&#x3D;&#x3D;，照以下順序發生: - <a href="/UA2asj7JT4mVwOnzj1dnJg">ngOnChanges()</a> (<em>Called frequently</em>) - 搭配<code>@Input()</code>，若無則此事件永不發生 - 可視為取得、更新<code>@Input()</code>項 - <a href="/gHKkweymQWeukox2TF8BNA">ngOnInit()</a> (<em>只調用一次</em>) - 建構子(constructor)之外的初始化。適合去遠方拿資料。 - <a href="/KWEePC6iQpagfRRRsE-FDw">ngDoCheck()</a> (<em>Called frequently</em>) - 每次<code>ngOnChanges()</code>(和首次<code>ngOnInit()</code>)之後觸發，僅是在 input field 改變聚焦也會觸發 - 可以檢測一些<code>ngOnChanges()</code>沒檢測到的(<code>ngOnChanges()</code>在<code>@Input()</code>變動時觸發，但若非存值，指向不變，則檢測不到) - <a href="/_rjp_O34SD-hyfOMoVtP1g">ngAfterContentInit()</a> (<em>只調用一次</em>) - 使用<code>@ContentChild</code>和<code>@ContentChildren</code>查詢的內容，在此才能取得到 - 似乎用來搜查<code>&lt;ng-content&gt;</code>而已 - ngAfterContentChecked() (<em>Called frequently</em>) - ngAfterViewInit() - 使用<code>@ViewChild</code>和<code>@ViewChildren</code>查詢的內容，在此才能取得到 - 子組件、樣本參考變數 - ngAfterViewChecked() (<em>Called frequently</em>) - ngOnDestroy() 在實例銷毀時進行清理(ex.停止 interval, 取消訂閱 observable, 解除 listener)</p>
+<h2 id="metadata-1"><a href="#metadata-1" class="headerlink" title="metadata"></a>metadata</h2><p><a target="_blank" rel="noopener" href="https://angular.tw/api/core/Component">文件</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Component(&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="view-encapsulation"><a href="#view-encapsulation" class="headerlink" title="view encapsulation"></a>view encapsulation</h2><p>可選如何封裝組件的 css: (進出是指全域樣式和組件的關係) - ShadowDom(不進不出) - Emulated(只進不出)(預設) - None(可進可出)</p>
+<h3 id="設定範例"><a href="#設定範例" class="headerlink" title="設定範例"></a>設定範例</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encapsulation: ViewEncapsulation.ShadowDom</span><br></pre></td></tr></table></figure>
+
+<h2 id="樣式"><a href="#樣式" class="headerlink" title="樣式"></a>樣式</h2><p><code>@Component</code>的 metadata 定義的樣式，只有該元件會吃到，嵌入他的元件和內容投影(content projected, 如 ng-content)嵌進來的元件都不會繼承那些樣式</p>
+<p>元件可能吃到的樣式(目前無順序):</p>
+<ul>
+<li><p>自己 metadata 中定義的樣式</p>
+</li>
+<li><p>自己範本中的<code>&lt;style&gt;</code>、<code>&lt;link&gt;</code>tag</p>
+</li>
+<li><p>內嵌的元件的 metadata 中，指定<code>:host</code>選擇器的樣式</p>
+</li>
+<li><p><code>angular.json</code>中的全域樣式</p>
+</li>
+</ul>
+<h3 id="host"><a href="#host" class="headerlink" title=":host"></a><code>:host</code></h3><p>用途: 去指定宿主元件的樣式 使用方式是把<code>:host</code>當成方法一樣，後面接一個小括號，把其餘選擇器放在裡面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:host(.active)&#123;</span><br><span class="line">    border-width: 3px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="host-context"><a href="#host-context" class="headerlink" title=":host-context"></a><code>:host-context</code></h3><p>用途:當祖先元素的樣式符合條件，就應用某些樣式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:host-context(.theme-light) h2 &#123;</span><br><span class="line">  background-color: #eef;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ng-deep"><a href="#ng-deep" class="headerlink" title="::ng-deep"></a><code>::ng-deep</code></h3><p>用途: 此樣式不會被封裝</p>
+<p>(比方說組件 A 的樣式用了 <code>::ng-deep</code> ，所有把組件 A 嵌入的組件，都會應用到此樣式 )</p>
+<p>(此樣式會直接出現在 <code>&lt;header&gt;</code> 的 <code>&lt;style&gt;</code> 裡面</p>
+<h3 id="Hostbinding"><a href="#Hostbinding" class="headerlink" title="@Hostbinding()"></a>@Hostbinding()</h3><p>常用在指令</p>
+<p>可以幫宿主元素加上 dom property(我也不確定是啥 …但已知 class, style 皆可 …)</p>
+<h3 id="Attribute"><a href="#Attribute" class="headerlink" title="@Attribute"></a>@Attribute</h3><blockquote>
+<p>請記住，要持續追蹤 Attribute 的值並更新關聯的 Property 時，請使用  <a target="_blank" rel="noopener" href="https://angular.tw/api/core/Input">@Input()</a>。若要將 HTML 屬性的值注入到元件或指令的建構函式中，請使用<a target="_blank" rel="noopener" href="https://angular.tw/api/core/Attribute"> @Attribute()</a>。</p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Emma Lan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2022/05/02/Angular-%E7%B5%84%E4%BB%B6/">http://example.com/2022/05/02/Angular-%E7%B5%84%E4%BB%B6/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Angular/"># Angular</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/05/02/hello-world/">Hello World</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Emma Lan | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
